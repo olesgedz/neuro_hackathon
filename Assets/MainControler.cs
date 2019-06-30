@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MainControler : MonoBehaviour {
 
-	int i  = 0;
 	public Animation referenceToAnimation;
  	public AnimationClip[] clips;
 	// Use this for initialization

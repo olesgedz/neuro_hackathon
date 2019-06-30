@@ -4,7 +4,6 @@ using UnityEngine;
 public class CrowdAnim : MonoBehaviour {
 
 	public Animator anim;
-int i  = 0;
 	public Animation referenceToAnimation;
  	public AnimationClip[] clips;
 	// Use this for initialization
