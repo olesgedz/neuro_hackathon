@@ -53,6 +53,7 @@ public class SampleApp : MonoBehaviour {
     private string connectionBuffer;
     private LibmuseBridge muse;
 	private int	counter;
+	private float stresskoef;
     //--------------------------------------
     // Private Methods
 
@@ -146,7 +147,7 @@ public class SampleApp : MonoBehaviour {
 		int j = 0;
 		float uno = 0;
 		float dos = 0;
-		float res = 0;
+		this.stresskoef = 0;
 		this.counter++;
 		connectionText.text = connectionBuffer;
 		if (this.counter == 100) {
@@ -168,8 +169,8 @@ public class SampleApp : MonoBehaviour {
 				}
 				i++;
 			}
-			res = uno / dos;
-			dataText.text = res.ToString ();
+			this.stresskoef = uno / dos;
+			dataText.text = this.stresskoef.ToString ();
 			this.counter = 0;
 		}
 	}
