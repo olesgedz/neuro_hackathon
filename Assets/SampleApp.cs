@@ -52,8 +52,7 @@ public class SampleApp : MonoBehaviour {
     private string dataBuffer;
     private string connectionBuffer;
     private LibmuseBridge muse;
-
-
+	private int	counter;
     //--------------------------------------
     // Private Methods
 
@@ -66,12 +65,13 @@ public class SampleApp : MonoBehaviour {
         muse = new LibmuseBridgeAndroid();
 #endif
         Debug.Log("Libmuse version = " + muse.getLibmuseVersion());
-
+		this.counter = 0;
         userPickedMuse = "";
         dataBuffer = "";
         connectionBuffer = "";
         registerListeners();
         registerAllData();
+		this.counter = 0;
     }
 
 
@@ -85,29 +85,29 @@ public class SampleApp : MonoBehaviour {
     void registerAllData() {
         // This will register for all the available data from muse headband
         // Comment out the ones you don't want
-        muse.listenForDataPacket("ACCELEROMETER");
-        muse.listenForDataPacket("GYRO");
+        //muse.listenForDataPacket("ACCELEROMETER");
+        //muse.listenForDataPacket("GYRO");
         muse.listenForDataPacket("EEG");
-        muse.listenForDataPacket("QUANTIZATION");
-        muse.listenForDataPacket("BATTERY");
-        muse.listenForDataPacket("DRL_REF");
-        muse.listenForDataPacket("ALPHA_ABSOLUTE");
-        muse.listenForDataPacket("BETA_ABSOLUTE");
-        muse.listenForDataPacket("DELTA_ABSOLUTE");
-        muse.listenForDataPacket("THETA_ABSOLUTE");
-        muse.listenForDataPacket("GAMMA_ABSOLUTE");
-        muse.listenForDataPacket("ALPHA_RELATIVE");
-        muse.listenForDataPacket("BETA_RELATIVE");
-        muse.listenForDataPacket("DELTA_RELATIVE");
-        muse.listenForDataPacket("THETA_RELATIVE");
-        muse.listenForDataPacket("GAMMA_RELATIVE");
-        muse.listenForDataPacket("ALPHA_SCORE");
-        muse.listenForDataPacket("BETA_SCORE");
-        muse.listenForDataPacket("DELTA_SCORE");
-        muse.listenForDataPacket("THETA_SCORE");
-        muse.listenForDataPacket("GAMMA_SCORE");
-        muse.listenForDataPacket("HSI_PRECISION");
-        muse.listenForDataPacket("ARTIFACTS");
+        //muse.listenForDataPacket("QUANTIZATION");
+        //muse.listenForDataPacket("BATTERY");
+        //muse.listenForDataPacket("DRL_REF");
+       // muse.listenForDataPacket("ALPHA_ABSOLUTE");
+        //muse.listenForDataPacket("BETA_ABSOLUTE");
+        //muse.listenForDataPacket("DELTA_ABSOLUTE");
+        //muse.listenForDataPacket("THETA_ABSOLUTE");
+        //muse.listenForDataPacket("GAMMA_ABSOLUTE");
+       // muse.listenForDataPacket("ALPHA_RELATIVE");
+       // muse.listenForDataPacket("BETA_RELATIVE");
+       // muse.listenForDataPacket("DELTA_RELATIVE");
+       // muse.listenForDataPacket("THETA_RELATIVE");
+       // muse.listenForDataPacket("GAMMA_RELATIVE");
+       // muse.listenForDataPacket("ALPHA_SCORE");
+       // muse.listenForDataPacket("BETA_SCORE");
+        //muse.listenForDataPacket("DELTA_SCORE");
+       // muse.listenForDataPacket("THETA_SCORE");
+       // muse.listenForDataPacket("GAMMA_SCORE");
+       // muse.listenForDataPacket("HSI_PRECISION");
+       // muse.listenForDataPacket("ARTIFACTS");
     }
     
     //--------------------------------------
@@ -141,8 +141,36 @@ public class SampleApp : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
-        // Display the data in the UI Text field
-        dataText.text = dataBuffer;
-        connectionText.text = connectionBuffer;
-    }
+		// Display the data in the UI Text field
+		int	i = 0;
+		int j = 0;
+		float uno = 0;
+		float dos = 0;
+		float res = 0;
+		this.counter++;
+		connectionText.text = connectionBuffer;
+		if (this.counter == 100) {
+			i = 0;
+			//dataText.text = dataBuffer;
+			foreach (string str in ((dataBuffer.Split (']') [0]).Split ('['))) {
+				if (i == 1) {
+					j = 0;
+					foreach (string str1 in str.Split(',')) {
+						if (j == 1) {
+							uno = float.Parse (str1);
+						}
+						if (j == 2)
+						{
+							dos = float.Parse (str1);
+						}
+						j++;
+					}
+				}
+				i++;
+			}
+			res = uno / dos;
+			dataText.text = res.ToString ();
+			this.counter = 0;
+		}
+	}
 }
