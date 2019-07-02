@@ -13,10 +13,13 @@ public class SampleApp : MonoBehaviour {
     public Button startScanButton;
     public Button connectButton;
     public Button disconnectButton;
+	public Button start;
     public Dropdown museList;
     public Text dataText;
     public Text connectionText;
-
+	public static float res;
+	public Camera camera1;
+	public Camera camera2;
     //--------------------------------------
     // Public methods that gets called on UI events.
 
@@ -25,6 +28,7 @@ public class SampleApp : MonoBehaviour {
         // Otherwise no callbacks will be triggered to get a notification.
         muse.startListening();
     }
+
 
     public void userSelectedMuse() {
         userPickedMuse = museList.options [museList.value].text;
@@ -139,6 +143,12 @@ public class SampleApp : MonoBehaviour {
         Debug.Log("Unity received artifact packet: " + data);
         dataBuffer = data;
     }
+
+	public  void Switch()
+	{
+		camera1.enabled = !camera1.enabled;
+		camera2.enabled = !camera2.enabled;
+	}
     
     // Update is called once per frame
     void Update () {
@@ -150,7 +160,7 @@ public class SampleApp : MonoBehaviour {
 		this.stresskoef = 0;
 		this.counter++;
 		connectionText.text = connectionBuffer;
-		if (this.counter == 100) {
+		if (this.counter == 100 && dataBuffer != null) {
 			i = 0;
 			//dataText.text = dataBuffer;
 			foreach (string str in ((dataBuffer.Split (']') [0]).Split ('['))) {
@@ -170,6 +180,7 @@ public class SampleApp : MonoBehaviour {
 				i++;
 			}
 			this.stresskoef = uno / dos;
+			res = this.stresskoef;
 			dataText.text = this.stresskoef.ToString ();
 			this.counter = 0;
 		}
